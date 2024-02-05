@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask
-  namespace: 5-example
+  namespace: danp-flask-app
   labels:
     app: flask
 spec:
@@ -20,4 +20,4 @@ spec:
         - name: flask
           image: d1v3/flask_website:0.0.1.RELEASE
           ports:
-            - containerPort: 80
+            - containerPort: 5000

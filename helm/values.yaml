@@ -1,10 +1,10 @@
 replicaCount: 1
 
 image:
-  repository: d1v3/nginx_website
+  repository: d1v3/flask_website
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.0.2.RELEASE"
+  tag: "0.0.1.RELEASE"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -33,15 +33,15 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  # type: NodePort
-  type: LoadBalancer
+  type: NodePort
+  # type: LoadBalancer
   name: web
   port: 80
 
 ingress:
   enabled: false
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/ingress.class: flask
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local

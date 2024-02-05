@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: nginx
+  name: flask
   namespace: 5-example
 spec:
   type: NodePort
@@ -11,4 +11,4 @@ spec:
       port: 80
       targetPort: 80
   selector:
-    app: nginx
+    app: flask

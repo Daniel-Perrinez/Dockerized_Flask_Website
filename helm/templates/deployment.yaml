@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: flask
   namespace: 5-example
   labels:
-    app: nginx
+    app: flask
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: flask
   template:
     metadata:
       labels:
-        app: nginx
+        app: flask
     spec:
       containers:
-        - name: nginx
-          image: d1v3/nginx_website:0.0.2.RELEASE
+        - name: flask
+          image: d1v3/flask_website:0.0.1.RELEASE
           ports:
             - containerPort: 80

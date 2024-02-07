@@ -1,0 +1,75 @@
+# Create flask website https://www.youtube.com/watch?v=mgwo8fq-SkA
+# Deploy flask to eks https://www.youtube.com/watch?v=c4WcYjama6U
+# https://medium.com/@sejalmaniyar9/deploying-a-docker-image-to-aws-eks-504f4fec6fee
+
+
+# Local testing
+# ---------------
+python3.11 -m pip install --upgrade pip
+python app.py
+127.0.0.1:5000/hello
+
+# Harbor
+# ---------------
+docker login demo.goharbor.io --username <> --password ""
+docker push demo.goharbor.io/weiharbor/demoflask:0.0.1.RELEASE
+
+# Docker Hub
+# ---------------
+docker login --username <> --password ""
+docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
+
+
+# Test
+# ---------------
+docker buildx build --platform linux/amd64 -t d1v3/flask_website:0.0.1.RELEASE .
+
+docker build -t d1v3/flask_website:0.0.1.RELEASE .
+docker container run -d -p 5000:5000 --name my-flask d1v3/flask_website:0.0.1.RELEASE
+
+docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
+
+
+
+
+
+
+docker ps
+docker ps -a
+docker rm 6429a02b33e4
+
+
+
+
+# Deploy
+# ---------------
+helm install danp-helm helm
+
+helm list                  
+helm uninstall danp-helm
+helm status danp-helm
+helm list
+
+
+
+
+
+
+
+
+kubectl run flask-website --image=d1v3/flask_website:0.0.1.RELEASE
+    # -- If the docker image was build on Mac the pod may show an error "exec /docker-entrypoint.sh: exec format error" --> https://stackoverflow.com/questions/72042794/when-creating-pod-it-go-into-crashloopbackoff-logs-show-exec-usr-local-bin-do
+Kubectl get pod
+kubectl expose pod flask-website --name=flask-website-svc --port=80
+kubectl get svc
+
+
+kubectl port-forward flask-deployment-986d8966-kl7wp 8080:80
+kubectl port-forward service/flask-website-svc 8080:80
+
+
+docker buildx build --platform linux/amd64 -t d1v3/flask_website:0.0.1.RELEASE .
+docker container run -d -p 8000:80 --name my-flask d1v3/flask_website:0.0.1.RELEASE
+docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
+kubectl delete deployment flask-deployment -n default
+kubectl apply -f deployment.yaml

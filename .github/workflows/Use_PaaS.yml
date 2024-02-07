@@ -4,4 +4,5 @@ on: [push, pull_request]
 
 jobs:
     Run-PaaS-Steps:
+        #This is the Platform as a Service pipeline workflow
         uses: Daniel-Perrinez/PaaS/.github/workflows/PaaS.yml@main

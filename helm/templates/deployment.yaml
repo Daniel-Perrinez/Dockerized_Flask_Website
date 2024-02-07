@@ -21,3 +21,4 @@ spec:
           image: d1v3/flask_website:0.0.1.RELEASE
           ports:
             - containerPort: 5000
+          imagePullPolicy: Always

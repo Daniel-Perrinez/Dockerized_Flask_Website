@@ -6,7 +6,4 @@ jobs:
     Run-PaaS-Steps:
         #This is the Platform as a Service pipeline workflow
         uses: Daniel-Perrinez/PaaS/.github/workflows/PaaS.yml@main #https://github.com/Daniel-Perrinez/PaaS
-        secrets: inherit
-        # secrets:
-        #     DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        #     DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        secrets: inherit #https://docs.github.com/en/actions/using-workflows/reusing-workflows#passing-inputs-and-secrets-to-a-reusable-workflow

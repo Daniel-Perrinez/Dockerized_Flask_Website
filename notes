@@ -7,7 +7,7 @@
 # ---------------
 python3.11 -m pip install --upgrade pip
 python app.py
-127.0.0.1:5000/hello
+
 
 # Harbor
 # ---------------
@@ -22,27 +22,16 @@ docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
 
 # Test
 # ---------------
-docker build -t d1v3/flask_website:0.0.1.RELEASE .
-
 # Build for AWS EKS
-docker buildx build --platform linux/amd64 -t d1v3/flask_website:0.0.1.RELEASE .
+docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t d1v3/flask_website:0.0.1.RELEASE .
 docker container run -d -p 5000:5000 --name my-flask d1v3/flask_website:0.0.1.RELEASE
-docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
-
-
-docker buildx build --platform linux/amd64 -t d1v3/flask_website:0.0.1.RELEASE .
-docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
-
-
-
-
 
 docker ps
 docker ps -a
-docker rm 6429a02b33e4
+docker rm 988b2959f1b7
 
-
-
+echo "${${$(<docker_image_id.txt)#sha256:}:0:12}"
+docker images -q | grep -wq "988b2959f1b7";
 
 # Deploy
 # ---------------
@@ -77,3 +66,35 @@ docker container run -d -p 8000:80 --name my-flask d1v3/flask_website:0.0.1.RELE
 docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
 kubectl delete deployment flask-deployment -n default
 kubectl apply -f deployment.yaml
+
+
+# Docker Build and Push without using the marketplace workflows.
+# ----------------------------------------------------------------------------------------------------------------------------
+# - name: Docker Build
+#   run: |
+#     docker_tag=0.0.1.RELEASE
+#     docker_repo=d1v3/flask_website
+#     echo "docker_tag == $docker_tag"
+#     echo "docker_repo == $docker_repo"
+#     if [ -f "Dockerfile" ]; then
+#       echo "Dockerfile exists"
+#       docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t ${docker_repo}:${docker_tag} .
+#         # If you get a 503 error check --> https://www.dockerstatus.com
+#     else
+#       echo "File does not exist"
+#       # exit 1;
+#     fi
+
+# - name: Docker push
+# if: ${{ success() }}
+# run: | 
+#   docker_image_id=$(echo $(<docker_image_id.txt)|cut -c8-19)
+#   echo "docker_image_id == $docker_image_id"
+#   # Check for the existence of a specific Docker image ID
+#   if docker images -q | grep -wq $docker_image_id; then
+#     echo "The Docker image ID exists locally"
+#     docker push docker.io/${docker_repo}:${docker_tag}
+#   else
+#     echo "The Docker image ID does not exist locally"
+#     exit 1;
+#   fi

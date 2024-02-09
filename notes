@@ -17,14 +17,14 @@ docker push demo.goharbor.io/weiharbor/demoflask:0.0.1.RELEASE
 # Docker Hub
 # ---------------
 docker login --username <> --password ""
-docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
+docker push docker.io/danielperrinez/flask_website:0.0.1.RELEASE
 
 
 # Test
 # ---------------
 # Build for AWS EKS
-docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t d1v3/flask_website:0.0.1.RELEASE .
-docker container run -d -p 5000:5000 --name my-flask d1v3/flask_website:0.0.1.RELEASE
+docker buildx build --platform linux/amd64 --iidfile docker_image_id.txt -t danielperrinez/flask_website:0.0.1.RELEASE .
+docker container run -d -p 5000:5000 --name my-flask danielperrinez/flask_website:0.0.1.RELEASE
 
 docker ps
 docker ps -a
@@ -50,7 +50,7 @@ kubectl apply -f helm/templates/deployment.yaml
 
 
 
-kubectl run flask-website --image=d1v3/flask_website:0.0.1.RELEASE
+kubectl run flask-website --image=danielperrinez/flask_website:0.0.1.RELEASE
     # -- If the docker image was build on Mac the pod may show an error "exec /docker-entrypoint.sh: exec format error" --> https://stackoverflow.com/questions/72042794/when-creating-pod-it-go-into-crashloopbackoff-logs-show-exec-usr-local-bin-do
 Kubectl get pod
 kubectl expose pod flask-website --name=flask-website-svc --port=80
@@ -61,9 +61,9 @@ kubectl port-forward flask-deployment-986d8966-kl7wp 8080:80
 kubectl port-forward service/flask-website-svc 8080:80
 
 
-docker buildx build --platform linux/amd64 -t d1v3/flask_website:0.0.1.RELEASE .
-docker container run -d -p 8000:80 --name my-flask d1v3/flask_website:0.0.1.RELEASE
-docker push docker.io/d1v3/flask_website:0.0.1.RELEASE
+docker buildx build --platform linux/amd64 -t danielperrinez/flask_website:0.0.1.RELEASE .
+docker container run -d -p 8000:80 --name my-flask danielperrinez/flask_website:0.0.1.RELEASE
+docker push docker.io/danielperrinez/flask_website:0.0.1.RELEASE
 kubectl delete deployment flask-deployment -n default
 kubectl apply -f deployment.yaml
 
@@ -73,7 +73,7 @@ kubectl apply -f deployment.yaml
 # - name: Docker Build
 #   run: |
 #     docker_tag=0.0.1.RELEASE
-#     docker_repo=d1v3/flask_website
+#     docker_repo=danielperrinez/flask_website
 #     echo "docker_tag == $docker_tag"
 #     echo "docker_repo == $docker_repo"
 #     if [ -f "Dockerfile" ]; then

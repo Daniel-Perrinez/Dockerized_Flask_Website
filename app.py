@@ -1,5 +1,12 @@
 from flask import Flask, render_template, request, flash
 
+
+# ----------------------------
+def create_app():
+    # Create the Flask application
+    app = Flask(__name__)
+# ----------------------------
+
 app = Flask(__name__)
 app.secret_key = "manbearpig_MUDMAN888"
 

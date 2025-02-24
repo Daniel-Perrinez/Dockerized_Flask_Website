@@ -64,6 +64,11 @@ kubectl port-forward service/flask-website-svc 8080:80
 docker buildx build --platform linux/amd64 -t danielperrinez/flask_website:0.0.1.RELEASE .
 docker container run -d -p 8000:80 --name my-flask danielperrinez/flask_website:0.0.1.RELEASE
 docker push docker.io/danielperrinez/flask_website:0.0.1.RELEASE
+
+docker buildx build --platform linux/amd64 -t danielperrinez/flask_website:latest .
+docker container run -d -p 8000:80 --name my-flask danielperrinez/flask_website:latest
+docker push docker.io/danielperrinez/flask_website:latest
+
 kubectl delete deployment flask-deployment -n default
 kubectl apply -f deployment.yaml
 
